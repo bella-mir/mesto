@@ -1,0 +1,10 @@
+.profile__photo {
+  background-image: url("../../../images/kusto.jpg");
+  background-size: contain;
+  background-repeat: no-repeat;
+  width: 130px;
+  height: 130px;
+  border-radius: 100%;
+  background-position: center;
+  margin-right: 20px;
+}
