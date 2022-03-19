@@ -10,7 +10,7 @@
   background-position: center;
 }
 
-.profile__edit-button:hover{
+.profile__edit-button:hover {
   opacity: 0.6;
   cursor: pointer;
 }
