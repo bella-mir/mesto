@@ -13,4 +13,15 @@
 
 .form__submit:hover{
     opacity:0.8;
+    cursor: pointer;
 }
+
+
+@media (max-width: 620px) {
+    .form__submit{
+        width: 238px;
+        height: 46px;
+        font-size: 18px;
+        line-height: 22px;
+    }
+  }

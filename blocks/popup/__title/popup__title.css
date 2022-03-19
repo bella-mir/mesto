@@ -6,3 +6,18 @@
     margin: 34px 0 54px 36px;
     text-align: left;
 }
+
+
+
+@media (max-width: 620px) {
+    .popup__title {
+        font-size: 18px;
+        line-height: 22px;
+        margin: 25px 22px 75px 22px;
+    }
+  }
+
+
+
+
+

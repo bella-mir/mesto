@@ -10,10 +10,12 @@
 
 .profile__button:hover{
   opacity: 0.6;
+  cursor: pointer;
 }
 
 @media (max-width: 620px) {
   .profile__button {
     width: 282px;
+    margin-top: 36px;
   }
 }

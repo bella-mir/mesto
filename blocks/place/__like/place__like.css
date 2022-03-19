@@ -8,6 +8,7 @@
 
 .place__like:hover {
   opacity: 0.5;
+  cursor: pointer;
 }
 
 .place__like.active {

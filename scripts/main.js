@@ -6,9 +6,7 @@ let nameInput = formElement.querySelector('#name'); // элемент ввода
 let jobInput = formElement.querySelector('#occupation'); // элемент ввода профессии
 let namePage = document.querySelector('.profile__name'); // элемент имени пользователя
 let jobPage = document.querySelector('.profile__description'); // элемент описания профессии
-let like = document.querySelector('.place__like');// элемент сердечка (лайк)
-
-
+let likes = document.querySelectorAll('.place__like');// элемент сердечка (лайк)
 
 function openedPopup() {
     popup.classList.add('popup__show'); 
@@ -25,9 +23,14 @@ function formSubmitHandler (evt) {
     closedPopup();  
 };
 
-function activeLike () {
-    like.classList.toggle('active');
-}
+function activeLike (parent) {
+    parent.forEach((item) => {
+      item.addEventListener('click', () => {
+        item.classList.toggle('active');
+      });
+    });
+  }
+
 
 edit_button.addEventListener('click', openedPopup);
 
@@ -35,10 +38,14 @@ popup__close.addEventListener('click', closedPopup);
 
 formElement.addEventListener('submit', formSubmitHandler); 
 
-like.addEventListener('click', activeLike);
+activeLike(likes);
 
 
 
+
+
+
+  
 
 
 
