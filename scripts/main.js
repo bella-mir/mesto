@@ -1,40 +1,33 @@
-let popup = document.querySelector("#popup"); // объект попапа
-let edit_button = document.querySelector("#edit_button"); // кнопка редактирования
-let popup__close = document.querySelector(".popup__close"); // кнопка заркытия
-let formElement = document.querySelector(".form"); // форма
-let nameInput = formElement.querySelector("#name"); // элемент ввода имени
-let jobInput = formElement.querySelector("#occupation"); // элемент ввода профессии
-let namePage = document.querySelector(".profile__name"); // элемент имени пользователя
-let jobPage = document.querySelector(".profile__description"); // элемент описания профессии
-let likes = document.querySelectorAll(".place__like"); // элемент сердечка (лайк)
+const popup = document.querySelector("#popup"); // объект попапа
+const editButton = document.querySelector("#edit_button"); // кнопка редактирования
+const popupClose = document.querySelector(".popup__close"); // кнопка заркытия
+const formElement = document.querySelector(".form"); // форма
+const nameInput = formElement.querySelector("#name"); // элемент ввода имени
+const jobInput = formElement.querySelector("#occupation"); // элемент ввода профессии
+const namePage = document.querySelector(".profile__name"); // элемент имени пользователя
+const jobPage = document.querySelector(".profile__description"); // элемент описания профессии
+const likes = document.querySelectorAll(".place__like"); // элемент сердечка (лайк)
 
-function openedPopup() {
-  popup.classList.add("popup__show");
+function openPopup() {
+  popup.classList.add("popup_opened");
 }
 
-function closedPopup() {
-  popup.classList.remove("popup__show");
+function closePopup() {
+  popup.classList.remove("popup_opened");
 }
 
-function formSubmitHandler(evt) {
+nameInput.value = namePage.textContent
+jobInput.value = jobPage.textContent
+
+function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   namePage.textContent = nameInput.value;
   jobPage.textContent = jobInput.value;
-  closedPopup();
+  closePopup();
 }
 
-function activeLike(parent) {
-  parent.forEach((item) => {
-    item.addEventListener("click", () => {
-      item.classList.toggle("active");
-    });
-  });
-}
+editButton.addEventListener("click", openPopup);
 
-edit_button.addEventListener("click", openedPopup);
+popupClose.addEventListener("click", closePopup);
 
-popup__close.addEventListener("click", closedPopup);
-
-formElement.addEventListener("submit", formSubmitHandler);
-
-activeLike(likes);
+formElement.addEventListener("submit", handleProfileFormSubmit);

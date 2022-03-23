@@ -1,6 +1,7 @@
 .place__like {
   background-image: url("../../../images/heart.svg");
   background-color: transparent;
+  background-repeat: none;
   border: none;
   width: 22px;
   height: 19px;
@@ -11,6 +12,4 @@
   cursor: pointer;
 }
 
-.place__like.active {
-  background-image: url("../../../images/heart_filled.svg");
-}
+
