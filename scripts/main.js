@@ -10,14 +10,13 @@ const likes = document.querySelectorAll(".place__like"); // элемент се�
 
 function openPopup() {
   popup.classList.add("popup_opened");
+  nameInput.value = namePage.textContent;
+  jobInput.value = jobPage.textContent;
 }
 
 function closePopup() {
   popup.classList.remove("popup_opened");
 }
-
-nameInput.value = namePage.textContent
-jobInput.value = jobPage.textContent
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
