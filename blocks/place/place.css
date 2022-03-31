@@ -1,4 +1,6 @@
 .place {
+  position: relative;
+  z-index: 1;
   width: 282px;
   height: 361px;
   background-color: white;
