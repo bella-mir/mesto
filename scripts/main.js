@@ -90,12 +90,6 @@ function addCard(cards) {
   placeContainer.prepend(placeElement);
 }
 
-//метод, добавит все карточки при загрузке
-for (let i = 0; i < initialCards.length; i++) {
-  addCard(initialCards[i]);
-  console.log(initialCards[i].name)
-}
-
 
 //метод, который добавит новую карточку из попапа
 
@@ -109,10 +103,6 @@ function handleAddPlaceFormSubmit(evt) {
   placeInput.value = '';
   linkInput.value = '';
 }
-
-
-
-
 
 function openEdPopup() {
   popupEdit.classList.add("popup_opened");
@@ -140,6 +130,11 @@ function closeAdPopup() {
 }
 
 
+
+//добавление всех карточек при загрузке
+for (let i = 0; i < initialCards.length; i++) {
+  addCard(initialCards[i]);
+}
 
 editButton.addEventListener("click", openEdPopup);
 popupEdClose.addEventListener("click", closeEdPopup);
