@@ -85,7 +85,6 @@ function addCard(cards) {
     openPicPopup(evt.target);
     popupImage.src = evt.target.src;
     popupCaption.textContent = evt.target.parentElement.querySelector('.place__name').textContent;
-    console.log(popupCaption.textContent);
   }); 
 
   placeContainer.prepend(placeElement);
