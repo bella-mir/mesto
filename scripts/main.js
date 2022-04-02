@@ -67,9 +67,10 @@ function handleProfileFormSubmit(evt) {
 function createCard(item) {
   const placeElement = placesTemplate.querySelector(".place").cloneNode(true);
   const placeImage = placeElement.querySelector(".place__image");
-  const placeName =  placeElement.querySelector(".place__name");
+  const placeName = placeElement.querySelector(".place__name");
 
   placeImage.src = item.link;
+  popupImage.alt = item.name;
   placeName.textContent = item.name;
 
   placeElement
@@ -91,11 +92,11 @@ function createCard(item) {
     popupCaption.textContent = item.name;
   });
 
-  return placeElement
+  return placeElement;
 }
 
 function addCard(item) {
-  const placeElement = createCard(item)
+  const placeElement = createCard(item);
   placeContainer.prepend(placeElement);
 }
 
@@ -103,7 +104,7 @@ function addCard(item) {
 
 function handleAddPlaceFormSubmit(evt) {
   evt.preventDefault();
-  const newCard = [];
+  const newCard = {};
   newCard.name = placeInput.value;
   newCard.link = linkInput.value;
   addCard(newCard);
