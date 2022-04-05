@@ -10,7 +10,6 @@
 
 .form__input:focus {
   outline: none;
-  border-bottom: 2.5px solid #90917e;
 }
 
 .form__input:hover {

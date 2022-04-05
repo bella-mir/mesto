@@ -28,7 +28,7 @@ const initialCards = [
 ];
 
 const popupEdit = document.querySelector("#popupEdit"); // объект попапа редактирования
-const editButton = document.querySelector("#editButton"); // кнопка редактирования
+const editingButton = document.querySelector("#editButton"); // кнопка редактирования
 const popupEdClose = document.querySelector("#popupEdClose"); // кнопка заркытия попапа редактирования
 const popupAdd = document.querySelector("#popupAdd"); // объект попапа добавления карточки
 const addButton = document.querySelector("#addButton"); // кнопка открывающая попак добавления карточки
@@ -53,11 +53,10 @@ const popupCaption = popupPic.querySelector(".popup__caption"); // подпис�
 
 const popupList = Array.from(document.querySelectorAll(".popup")); //список всех попапов документа
 
-
 //метод, который поможет закрыть попап при нажатии на esc
 const handleEscUp = (evt) => {
-  const activePopup = document.querySelector(".popup_opened");
   if (evt.key === "Escape") {
+    const activePopup = document.querySelector(".popup_opened");
     closePopup(activePopup);
   }
 };
@@ -65,7 +64,7 @@ const handleEscUp = (evt) => {
 //метод, который поможет закрыть попап при нажатии на overlay
 const handleOverlayClick = (popup) => {
   popup.addEventListener("mousedown", (e) => {
-    if (e.target === popup && popup.classList.contains("popup_opened")) {
+    if (e.target === popup || e.target.classList.contains("popup__close")) {
       closePopup(popup);
     }
   });
@@ -95,6 +94,20 @@ function handleProfileFormSubmit(evt) {
   closePopup(popupEdit);
 }
 
+//Функция, которая очистит от старых ошибок попап при закрытии
+
+const clearErrors = function (form) {
+  const errorsList = Array.from(form.querySelectorAll(".form__error"));
+  errorsList.forEach((error) => {
+    error.textContent = "";
+  });
+
+  const inputsList = Array.from(form.querySelectorAll(".form__input"));
+  inputsList.forEach((input) => {
+    input.classList.remove("form__input_error");
+  });
+};
+
 //метод, который сгенерирует карточки из темплейта
 
 function createCard(item) {
@@ -119,10 +132,10 @@ function createCard(item) {
     });
 
   placeImage.addEventListener("click", function () {
-    openPopup(popupPic);
     popupImage.src = item.link;
     popupImage.alt = item.name;
     popupCaption.textContent = item.name;
+    openPopup(popupPic);
   });
 
   return placeElement;
@@ -143,19 +156,21 @@ function handleAddPlaceFormSubmit(evt) {
   addCard(newCard);
   closePopup(popupAdd);
   formAdd.reset();
+  formAdd.querySelector(".form__submit").classList.add("form__submit_inactive");
 }
 
 //добавление всех карточек при загрузке
 initialCards.forEach((element) => addCard(element));
 
-editButton.addEventListener("click", function () {
-  openPopup(popupEdit);
+editingButton.addEventListener("click", function () {
   nameInput.value = namePage.textContent;
   jobInput.value = jobPage.textContent;
+  openPopup(popupEdit);
 });
 
 popupEdClose.addEventListener("click", function () {
   closePopup(popupEdit);
+  clearErrors(formEdit);
 });
 
 addButton.addEventListener("click", function () {
@@ -164,10 +179,9 @@ addButton.addEventListener("click", function () {
 
 popupAdClose.addEventListener("click", function () {
   closePopup(popupAdd);
-});
-
-popupPicClose.addEventListener("click", function () {
-  closePopup(popupPic);
+  formAdd.reset();
+  formAdd.querySelector(".form__submit").classList.add("form__submit_inactive");
+  clearErrors(formAdd);
 });
 
 formEdit.addEventListener("submit", handleProfileFormSubmit);

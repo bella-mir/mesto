@@ -1,8 +1,6 @@
 .popup__figure {
     position: relative;
-    display: flex;
-    flex-direction: column;
-    top: 10vh;
+    margin: auto;
     box-shadow: 0px 0px 25px rgba(0, 0, 0, 0.15);
     border-radius: 10px;
 }
