@@ -66,6 +66,11 @@ const handleOverlayClick = (popup) => {
   popup.addEventListener("mousedown", (e) => {
     if (e.target === popup || e.target.classList.contains("popup__close")) {
       closePopup(popup);
+      const popupForm = popup.querySelector(".form");
+      if(popupForm) {
+      popupForm.reset();
+      popupForm.querySelector(".form__submit").classList.add("form__submit_inactive");
+      clearErrors(popupForm);}
     }
   });
 };
@@ -168,20 +173,8 @@ editingButton.addEventListener("click", function () {
   openPopup(popupEdit);
 });
 
-popupEdClose.addEventListener("click", function () {
-  closePopup(popupEdit);
-  clearErrors(formEdit);
-});
-
 addButton.addEventListener("click", function () {
   openPopup(popupAdd);
-});
-
-popupAdClose.addEventListener("click", function () {
-  closePopup(popupAdd);
-  formAdd.reset();
-  formAdd.querySelector(".form__submit").classList.add("form__submit_inactive");
-  clearErrors(formAdd);
 });
 
 formEdit.addEventListener("submit", handleProfileFormSubmit);
