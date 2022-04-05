@@ -53,11 +53,14 @@ const popupCaption = popupPic.querySelector(".popup__caption"); // подпис�
 
 const popupList = Array.from(document.querySelectorAll(".popup")); //список всех попапов документа
 
+
+
 //метод, который поможет закрыть попап при нажатии на esc
 const handleEscUp = (evt) => {
   if (evt.key === "Escape") {
     const activePopup = document.querySelector(".popup_opened");
     closePopup(activePopup);
+    resetForm(activePopup);
   }
 };
 
@@ -66,11 +69,7 @@ const handleOverlayClick = (popup) => {
   popup.addEventListener("mousedown", (e) => {
     if (e.target === popup || e.target.classList.contains("popup__close")) {
       closePopup(popup);
-      const popupForm = popup.querySelector(".form");
-      if(popupForm) {
-      popupForm.reset();
-      popupForm.querySelector(".form__submit").classList.add("form__submit_inactive");
-      clearErrors(popupForm);}
+      resetForm(popup);
     }
   });
 };
@@ -112,6 +111,23 @@ const clearErrors = function (form) {
     input.classList.remove("form__input_error");
   });
 };
+
+
+
+//Функция, которая проверит, есть ли у попапа форма и сделает ее полный ресет (избавится от появления старых ошибок при при следующем открытии и пр.)
+
+const resetForm = function(popup) {
+  const popupForm = popup.querySelector(".form");
+  if (popupForm) {
+    popupForm.reset();
+    popupForm
+      .querySelector(".form__submit")
+      .classList.add("form__submit_inactive");
+    clearErrors(popupForm);
+  };
+}
+
+
 
 //метод, который сгенерирует карточки из темплейта
 
