@@ -39,8 +39,11 @@
 
 @import url(../blocks/form/form.css);
 @import url(../blocks/form/__submit/form__submit.css);
+@import url(../blocks/form/__submit/_inactive/form__submit_inactive.css);
 @import url(../blocks/form/__input/form__input.css);
-
+@import url(../blocks/form/__input/_error/form__input_error.css);
+@import url(../blocks/form/__error/form__error.css);
+@import url(../blocks/form/__error/_active/form__error_active.css);
 
 @import url(../blocks/footer/footer.css);
 @import url(../blocks/footer/__copyright/footer__copyright.css);

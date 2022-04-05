@@ -5,9 +5,20 @@
   font-size: 14px;
   line-height: 17px;
   height: 30px;
-  margin-bottom: 30px;
+  margin-bottom: 5px;
 }
 
 .form__input:focus {
   outline: none;
+  border-bottom: 2.5px solid #90917e;
+}
+
+.form__input:hover {
+  border-bottom-color: #90917e;
+}
+
+@media (max-width: 620px) {
+  .form__input {
+    width: 238px;
+  }
 }

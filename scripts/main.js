@@ -51,15 +51,48 @@ const popupPicClose = document.querySelector("#popupPicClose"); // кнопка 
 const popupImage = popupPic.querySelector(".popup__image"); // картинка попапа
 const popupCaption = popupPic.querySelector(".popup__caption"); // подпись попапа
 
-const togglePopup = function (popup) {
-  popup.classList.toggle("popup_opened");
+const popupList = Array.from(document.querySelectorAll(".popup")); //список всех попапов документа
+
+
+//метод, который поможет закрыть попап при нажатии на esc
+const handleEscUp = (evt) => {
+  const activePopup = document.querySelector(".popup_opened");
+  if (evt.key === "Escape") {
+    closePopup(activePopup);
+  }
+};
+
+//метод, который поможет закрыть попап при нажатии на overlay
+const handleOverlayClick = (popup) => {
+  popup.addEventListener("mousedown", (e) => {
+    if (e.target === popup && popup.classList.contains("popup_opened")) {
+      closePopup(popup);
+    }
+  });
+};
+
+//метод, который добавляет слушатель кликанья к каждому попапу из документа
+const setEventCloseListeners = (popupList) => {
+  popupList.forEach((popup) => {
+    handleOverlayClick(popup);
+  });
+};
+
+const openPopup = function (popup) {
+  document.addEventListener("keydown", handleEscUp);
+  popup.classList.add("popup_opened");
+};
+
+const closePopup = function (popup) {
+  document.removeEventListener("keydown", handleEscUp);
+  popup.classList.remove("popup_opened");
 };
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
   namePage.textContent = nameInput.value;
   jobPage.textContent = jobInput.value;
-  togglePopup(popupEdit);
+  closePopup(popupEdit);
 }
 
 //метод, который сгенерирует карточки из темплейта
@@ -86,7 +119,7 @@ function createCard(item) {
     });
 
   placeImage.addEventListener("click", function () {
-    togglePopup(popupPic);
+    openPopup(popupPic);
     popupImage.src = item.link;
     popupImage.alt = item.name;
     popupCaption.textContent = item.name;
@@ -108,7 +141,7 @@ function handleAddPlaceFormSubmit(evt) {
   newCard.name = placeInput.value;
   newCard.link = linkInput.value;
   addCard(newCard);
-  togglePopup(popupAdd);
+  closePopup(popupAdd);
   formAdd.reset();
 }
 
@@ -116,26 +149,28 @@ function handleAddPlaceFormSubmit(evt) {
 initialCards.forEach((element) => addCard(element));
 
 editButton.addEventListener("click", function () {
-  togglePopup(popupEdit);
+  openPopup(popupEdit);
   nameInput.value = namePage.textContent;
   jobInput.value = jobPage.textContent;
 });
 
 popupEdClose.addEventListener("click", function () {
-  togglePopup(popupEdit);
+  closePopup(popupEdit);
 });
 
 addButton.addEventListener("click", function () {
-  togglePopup(popupAdd);
+  openPopup(popupAdd);
 });
 
 popupAdClose.addEventListener("click", function () {
-  togglePopup(popupAdd);
+  closePopup(popupAdd);
 });
 
 popupPicClose.addEventListener("click", function () {
-  togglePopup(popupPic);
+  closePopup(popupPic);
 });
 
 formEdit.addEventListener("submit", handleProfileFormSubmit);
 formAdd.addEventListener("submit", handleAddPlaceFormSubmit);
+
+setEventCloseListeners(popupList);
