@@ -5,8 +5,8 @@
   line-height: 15px;
   color: #ff0000;
   z-index: 100;
-  margin-bottom: 20px;
   opacity: 0;
+  height: 15px;
   text-overflow: ellipsis;
   white-space: nowrap;
   overflow: hidden;

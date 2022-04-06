@@ -6,6 +6,11 @@
   line-height: 17px;
   height: 30px;
   margin-bottom: 5px;
+  margin-top: 10px;
+}
+
+.form .form__input:first-of-type{
+  margin-top: 0;
 }
 
 .form__input:focus {
