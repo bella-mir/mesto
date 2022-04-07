@@ -7,9 +7,6 @@
   z-index: 100;
   opacity: 0;
   height: 15px;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
 }
 
 @media (max-width: 620px) {
