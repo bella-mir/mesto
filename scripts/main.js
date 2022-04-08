@@ -85,10 +85,6 @@ const openPopup = function (popup) {
 const closePopup = function (popup) {
   document.removeEventListener("keydown", handleEscUp);
   popup.classList.remove("popup_opened");
-  const popupForm = popup.querySelector(".form");
-  if (popupForm) {
-    resetForm(popupForm);
-  }
 };
 
 //Функция, которая проверит, есть ли у попапа форма и сделает ее полный ресет (избавится от появления старых ошибок при при следующем открытии и пр.)
@@ -178,12 +174,14 @@ function handleAddPlaceFormSubmit(evt) {
 initialCards.forEach((element) => addCard(element));
 
 editingButton.addEventListener("click", function () {
+  resetForm(formEdit);
   nameInput.value = namePage.textContent;
   jobInput.value = jobPage.textContent;
   openPopup(popupEdit);
 });
 
 addButton.addEventListener("click", function () {
+  resetForm(formAdd);
   openPopup(popupAdd);
 });
 
