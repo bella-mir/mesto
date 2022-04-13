@@ -1,38 +1,39 @@
-// карточки
+import { Card } from "./Card.js";
+import { FormValidator } from "./FormValidator.js";
 
+// карточки
 const initialCards = [
   {
-    name: "Архыз",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/arkhyz.jpg",
+    name: "Сулакский каньон",
+    link: "https://i.ibb.co/KWMxh5v/photo-2022-04-07-16-52-16.jpg",
   },
   {
-    name: "Челябинская область",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/chelyabinsk-oblast.jpg",
+    name: "Даргвас",
+    link: "https://i.ibb.co/jLyNps7/photo-2022-04-07-16-52-55.jpg",
   },
   {
-    name: "Иваново",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/ivanovo.jpg",
+    name: "Братск",
+    link: "https://i.ibb.co/nrwdmwG/photo-2022-04-07-16-53-03.jpg",
   },
   {
-    name: "Камчатка",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kamchatka.jpg",
+    name: "Ольхон",
+    link: "https://i.ibb.co/GnKzXXV/photo-2022-04-07-16-53-04.jpg",
   },
   {
-    name: "Холмогорский район",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/kholmogorsky-rayon.jpg",
+    name: "Мидаграбинские водопады",
+    link: "https://i.ibb.co/R2fSKW8/photo-2022-04-07-16-52-57.jpg",
   },
   {
-    name: "Байкал",
-    link: "https://pictures.s3.yandex.net/frontend-developer/cards-compressed/baikal.jpg",
+    name: "Зарамагское водохранилище",
+    link: "https://i.ibb.co/6y9pwc9/photo-2022-04-07-16-52-58.jpg",
   },
 ];
 
+// DOM-элементы
 const popupEdit = document.querySelector("#popupEdit"); // объект попапа редактирования
 const editingButton = document.querySelector("#editButton"); // кнопка редактирования
-const popupEdClose = document.querySelector("#popupEdClose"); // кнопка заркытия попапа редактирования
 const popupAdd = document.querySelector("#popupAdd"); // объект попапа добавления карточки
 const addButton = document.querySelector("#addButton"); // кнопка открывающая попак добавления карточки
-const popupAdClose = document.querySelector("#popupAdClose"); // кнопка заркытия попапа добавления карточки
 const formEdit = document.querySelector("#formEdit"); // форма редактирования
 const nameInput = formEdit.querySelector("#name"); // элемент ввода имени
 const jobInput = formEdit.querySelector("#occupation"); // элемент ввода профессии
@@ -41,17 +42,23 @@ const jobPage = document.querySelector(".profile__description"); // элемен
 const formAdd = document.querySelector("#formAdd"); // форма добавления карточки
 const placeInput = formAdd.querySelector("#picName"); // элемент ввода названия места
 const linkInput = formAdd.querySelector("#picLink"); // элемент ввода ссылки на картинку
-
-const placeContainer = document.querySelector(".places"); //темплейт карточки
-const placesTemplate = document.querySelector(".places-template").content; // темплейт карточки
-
-const popupPic = document.querySelector("#popupPic"); // объект попапа с картинкой
-const popupPicClose = document.querySelector("#popupPicClose"); // кнопка заркытия попапа c картинкой
-
-const popupImage = popupPic.querySelector(".popup__image"); // картинка попапа
-const popupCaption = popupPic.querySelector(".popup__caption"); // подпись попапа
-
 const popupList = Array.from(document.querySelectorAll(".popup")); //список всех попапов документа
+const popupPic = document.querySelector("#popupPic"); // объект попапа с картинкой
+
+// Для валидации
+
+//Список форм
+const formList = Array.from(document.querySelectorAll(".form"));
+
+//Селекторы форм
+const popupSelectors = {
+  formSelector: ".form",
+  inputSelector: ".form__input",
+  submitButtonSelector: ".form__submit",
+  errorMessage: "form__error_active",
+  errorInput: "form__input_error",
+  inactiveButton: "form__submit_inactive",
+};
 
 //метод, который поможет закрыть попап при нажатии на esc
 const handleEscUp = (evt) => {
@@ -77,7 +84,7 @@ const setEventCloseListeners = (popupList) => {
   });
 };
 
-const openPopup = function (popup) {
+export const openPopup = function (popup) {
   document.addEventListener("keydown", handleEscUp);
   popup.classList.add("popup_opened");
 };
@@ -90,11 +97,9 @@ const closePopup = function (popup) {
 //Функция, которая проверит, есть ли у попапа форма и сделает ее полный ресет (избавится от появления старых ошибок при при следующем открытии и пр.)
 const resetForm = function (popupForm) {
   popupForm.reset();
-  popupForm
-    .querySelector(".form__submit")
-    .classList.add("form__submit_inactive");
-  clearErrors(popupForm);
   const button = popupForm.querySelector(".form__submit");
+  button.classList.add("form__submit_inactive");
+  clearErrors(popupForm);
   button.setAttribute("disabled", true);
 };
 
@@ -119,43 +124,13 @@ const clearErrors = function (form) {
   });
 };
 
-//метод, который сгенерирует карточки из темплейта
-
-function createCard(item) {
-  const placeElement = placesTemplate.querySelector(".place").cloneNode(true);
-  const placeImage = placeElement.querySelector(".place__image");
-  const placeName = placeElement.querySelector(".place__name");
-
-  placeImage.src = item.link;
-  popupImage.alt = item.name;
-  placeName.textContent = item.name;
-
-  placeElement
-    .querySelector(".place__like")
-    .addEventListener("click", function (evt) {
-      evt.target.classList.toggle("place__like_active");
-    });
-
-  placeElement
-    .querySelector(".place__remove")
-    .addEventListener("click", function () {
-      placeElement.remove();
-    });
-
-  placeImage.addEventListener("click", function () {
-    popupImage.src = item.link;
-    popupImage.alt = item.name;
-    popupCaption.textContent = item.name;
-    openPopup(popupPic);
-  });
-
-  return placeElement;
-}
-
-function addCard(item) {
-  const placeElement = createCard(item);
-  placeContainer.prepend(placeElement);
-}
+//создание карточек
+initialCards.forEach((item) => {
+  const card = new Card(item, ".places-template");
+  const cardElement = card.generateCard();
+  // Добавляем в DOM
+  document.querySelector(".places").prepend(cardElement);
+});
 
 //метод, который добавит новую карточку из попапа
 
@@ -164,14 +139,16 @@ function handleAddPlaceFormSubmit(evt) {
   const newCard = {};
   newCard.name = placeInput.value;
   newCard.link = linkInput.value;
-  addCard(newCard);
+  const card = new Card(newCard, ".places-template");
+  const cardElement = card.generateCard();
+  document.querySelector(".places").prepend(cardElement);
   closePopup(popupAdd);
-  formAdd.reset();
-  formAdd.querySelector(".form__submit").classList.add("form__submit_inactive");
 }
 
-//добавление всех карточек при загрузке
-initialCards.forEach((element) => addCard(element));
+formList.forEach((formElement) => {
+  const formValid = new FormValidator(popupSelectors, formElement);
+  formValid.enableValidation();
+});
 
 editingButton.addEventListener("click", function () {
   resetForm(formEdit);
