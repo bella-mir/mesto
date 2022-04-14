@@ -44,14 +44,21 @@ const placeInput = formAdd.querySelector("#picName"); // элемент ввод
 const linkInput = formAdd.querySelector("#picLink"); // элемент ввода ссылки на картинку
 const popupList = Array.from(document.querySelectorAll(".popup")); //список всех попапов документа
 const popupPic = document.querySelector("#popupPic"); // объект попапа с картинкой
+const popupImage = popupPic.querySelector(".popup__image"); // картинка попапа
+const popupCaption = popupPic.querySelector(".popup__caption"); // подпись попапа
+const places = document.querySelector(".places")
 
-// Для валидации
 
-//Список форм
-const formList = Array.from(document.querySelectorAll(".form"));
+// Для мягкого связывания функции с классом 
+function handleCardClick(name, link) {
+  popupImage.src = link;
+  popupImage.alt = name;
+  popupCaption.textContent = name;
+  openPopup(popupPic);
+}
 
-//Селекторы форм
-const popupSelectors = {
+// Для валидации - селекторы форм
+const config = {
   formSelector: ".form",
   inputSelector: ".form__input",
   submitButtonSelector: ".form__submit",
@@ -84,7 +91,7 @@ const setEventCloseListeners = (popupList) => {
   });
 };
 
-export const openPopup = function (popup) {
+const openPopup = function (popup) {
   document.addEventListener("keydown", handleEscUp);
   popup.classList.add("popup_opened");
 };
@@ -94,14 +101,6 @@ const closePopup = function (popup) {
   popup.classList.remove("popup_opened");
 };
 
-//Функция, которая проверит, есть ли у попапа форма и сделает ее полный ресет (избавится от появления старых ошибок при при следующем открытии и пр.)
-const resetForm = function (popupForm) {
-  popupForm.reset();
-  const button = popupForm.querySelector(".form__submit");
-  button.classList.add("form__submit_inactive");
-  clearErrors(popupForm);
-  button.setAttribute("disabled", true);
-};
 
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
@@ -110,26 +109,17 @@ function handleProfileFormSubmit(evt) {
   closePopup(popupEdit);
 }
 
-//Функция, которая очистит от старых ошибок попап при закрытии
 
-const clearErrors = function (form) {
-  const errorsList = Array.from(form.querySelectorAll(".form__error"));
-  errorsList.forEach((error) => {
-    error.textContent = "";
-  });
-
-  const inputsList = Array.from(form.querySelectorAll(".form__input"));
-  inputsList.forEach((input) => {
-    input.classList.remove("form__input_error");
-  });
-};
-
-//создание карточек
-initialCards.forEach((item) => {
-  const card = new Card(item, ".places-template");
+//создание карточек 
+function createCard(item){
+  const card = new Card(item, ".places-template", handleCardClick);
   const cardElement = card.generateCard();
-  // Добавляем в DOM
-  document.querySelector(".places").prepend(cardElement);
+  return cardElement
+}
+
+initialCards.forEach((item) => {
+  const cardElement = createCard(item)
+  places.append(cardElement);
 });
 
 //метод, который добавит новую карточку из попапа
@@ -139,26 +129,39 @@ function handleAddPlaceFormSubmit(evt) {
   const newCard = {};
   newCard.name = placeInput.value;
   newCard.link = linkInput.value;
-  const card = new Card(newCard, ".places-template");
-  const cardElement = card.generateCard();
-  document.querySelector(".places").prepend(cardElement);
+  const cardElement = createCard(newCard);
+  places.prepend(cardElement);
   closePopup(popupAdd);
 }
 
-formList.forEach((formElement) => {
-  const formValid = new FormValidator(popupSelectors, formElement);
-  formValid.enableValidation();
-});
+
+const formValidators = {}
+
+// Включение валидации
+const enableValidation = (config) => {
+  const formList = Array.from(document.querySelectorAll(config.formSelector))
+  formList.forEach((formElement) => {
+    const validator = new FormValidator(formElement, config)
+    const formName = formElement.getAttribute('name')
+    formValidators[formName] = validator;
+   validator.enableValidation();
+  });
+};
+
+enableValidation(config);
+
+
 
 editingButton.addEventListener("click", function () {
-  resetForm(formEdit);
+  formValidators[ formEdit.getAttribute('name') ].resetValidation();
   nameInput.value = namePage.textContent;
   jobInput.value = jobPage.textContent;
   openPopup(popupEdit);
 });
 
 addButton.addEventListener("click", function () {
-  resetForm(formAdd);
+  formAdd.reset();
+  formValidators[ formAdd.getAttribute('name') ].resetValidation();
   openPopup(popupAdd);
 });
 
