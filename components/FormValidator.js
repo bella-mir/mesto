@@ -1,12 +1,10 @@
-class FormValidator {
+export default class FormValidator {
   constructor(formElement, data) {
     this._form = formElement;
     this._inputList = Array.from(
       formElement.querySelectorAll(data.inputSelector)
     );
-    this._submitButton = formElement.querySelector(
-      data.submitButtonSelector
-    );
+    this._submitButton = formElement.querySelector(data.submitButtonSelector);
     this._errorMessage = data.errorMessage;
     this._errorInput = data.errorInput;
     this._inactiveButton = data.inactiveButton;
@@ -63,18 +61,14 @@ class FormValidator {
     });
   }
 
-
   resetValidation() {
-    this._toggleButtonState(); 
+    this._toggleButtonState();
     this._inputList.forEach((inputElement) => {
-      this._hideInputError(inputElement)
+      this._hideInputError(inputElement);
     });
   }
-
 
   enableValidation() {
     this._setListeners();
   }
 }
-
-export { FormValidator };

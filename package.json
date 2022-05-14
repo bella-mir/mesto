@@ -1,0 +1,19 @@
+{
+  "name": "yandex_praktikum",
+  "version": "0.0.1",
+  "description": "**О задании**",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/belka-mironova/mesto.git"
+  },
+  "author": "Bella Mironova",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/belka-mironova/mesto/issues"
+  },
+  "homepage": "https://github.com/belka-mironova/mesto#readme"
+}

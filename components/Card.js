@@ -1,4 +1,4 @@
-class Card {
+export default class Card {
   constructor(data, selector, handleCardClick) {
     this._selector = selector;
     this._name = data.name;
@@ -27,10 +27,9 @@ class Card {
   }
 
   _setEventListeners() {
-    this._likeButton
-      .addEventListener("click", () => {
-        this._toggleLike();
-      });
+    this._likeButton.addEventListener("click", () => {
+      this._toggleLike();
+    });
 
     this._element
       .querySelector(".place__remove")
@@ -56,5 +55,3 @@ class Card {
     return this._element;
   }
 }
-
-export { Card };
