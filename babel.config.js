@@ -10,7 +10,12 @@ const presets = [
   
       // использовать полифиллы для браузеров из свойства target
       // по умолчанию babel использует поллифиллы библиотеки core-js
+<<<<<<< HEAD
       useBuiltIns: "entry"
+=======
+      useBuiltIns: "entry",
+      corejs: '^3.16.1',
+>>>>>>> my-working-webpack
     }]
   ];
   
