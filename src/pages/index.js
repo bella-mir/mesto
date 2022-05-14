@@ -1,5 +1,7 @@
 'use strict';
 
+import './index.css';
+
 import Card from "../components/Card.js";
 import FormValidator from "../components/FormValidator.js";
 import Section from "../components/Section.js";
@@ -21,6 +23,8 @@ import {
 
 // Попап с картинкой
 const popupImage = new PopupWithImage("#popupPic");
+
+
 
 // Увеличение картинок при клике (для мягкого связывания функции с классом Card)
 function handleCardClick(name, link) {
