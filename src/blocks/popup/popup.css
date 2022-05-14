@@ -7,7 +7,7 @@
   position: fixed;
   display: flex;
   z-index: 100;
-  justify-content: center; 
+  justify-content: center;
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s, opacity 0.5s ease-out;
