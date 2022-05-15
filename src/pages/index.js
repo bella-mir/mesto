@@ -31,13 +31,6 @@ function handleCardClick(name, link) {
   popupImage.open(name, link);
 }
 
-//функция отрисовки карточек на странице
-function renderCard(item) {
-  const card = new Card(item, ".places-template", handleCardClick);
-  const cardElement = card.generateCard();
-  newCard.addItem(cardElement);
-}
-
 
 //создание карточек
 const newCard = new Section({
@@ -46,6 +39,16 @@ const newCard = new Section({
   },
   ".places"
 );
+
+
+//функция отрисовки карточек на странице
+function renderCard(item) {
+  const card = new Card(item, ".places-template", handleCardClick);
+  const cardElement = card.generateCard();
+  return (cardElement);
+
+}
+
 
 //добавление карточек на страницу
 newCard.renderItems();
@@ -56,7 +59,6 @@ const userData = new UserInfo({selectorName:'.profile__name', selectorInfo:'.pro
 //добавление карточки из попапа
 const popupCard = new PopupWithForm("#popupAdd", (data) => {
   newCard.addItem(renderCard(data));
-  console.log(data)
 } );
 
 //редактирование карточки профиля
