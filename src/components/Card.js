@@ -1,9 +1,13 @@
+import { data } from "autoprefixer";
+
 export default class Card {
   constructor(data, selector, handleCardClick) {
     this._selector = selector;
     this._name = data.name;
+    this._id = data.id;
     this._link = data.link;
     this._handleCardClick = handleCardClick;
+    //this._api = api;
   }
 
   _getTemplate() {
@@ -18,8 +22,9 @@ export default class Card {
     this._likeButton.classList.toggle("place__like_active");
   }
 
+ 
   _deleteCard() {
-    this._element.remove();
+ this._element.remove();
   }
 
   _handleImageClick() {

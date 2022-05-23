@@ -16,13 +16,17 @@ export default class PopupWithForm extends Popup {
     );
     return this._formValues;
   }
+
+  // _saveItem(text){
+  //   this._api.postCard({name: text}).then((data)=> this._addItem(data.name)).catch((err) => console.log(err));
+
+  // }
   
   setEventListeners() {
     super.setEventListeners();
     this._formElement.addEventListener("submit", (evt) => {
       evt.preventDefault();
       this._handleFormSubmit(this._getInputValues());
-      console.log(this._getInputValues());
       this.close();
     });
   }

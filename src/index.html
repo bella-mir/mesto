@@ -128,6 +128,55 @@
             <figcaption class="popup__caption"></figcaption>
           </figure>
         </section>
+
+        <section id="popupCon" class="popup">
+          <div class="popup__container popup__container_confirm">
+            <h2 class="popup__title">Вы уверены?</h2>
+            <form id="formAdd" name="card-form" class="form" novalidate>
+              <input
+                id="submit_confirm"
+                class="form__submit form__submit_inactive"
+                type="submit"
+                value="Да"
+                disabled
+              />
+            </form>
+            <button
+              id="popupСonClose"
+              type="button"
+              class="popup__close"
+            ></button>
+          </div>
+        </section>
+
+        <section id="popupAvatar" class="popup">
+          <div class="popup__container popup__container_avatar">
+            <h2 class="popup__title">Обновить аватар</h2>
+            <form id="formAvatar" name="card-form" class="form" novalidate>
+              <input
+                class="form__input"
+                type="url"
+                id="avatarLink"
+                name="link"
+                placeholder="Ссылка на картинку"
+                required
+              />
+              <span class="form__error" id="link-error"></span>
+              <input
+                id="submit_confirm"
+                class="form__submit form__submit_inactive"
+                type="submit"
+                value="Сохранить"
+                disabled
+              />
+            </form>
+            <button
+              id="popupAvatarClose"
+              type="button"
+              class="popup__close"
+            ></button>
+          </div>
+        </section>
       </main>
 
       <footer class="footer">
@@ -141,7 +190,10 @@
         <button type="button" class="place__remove"></button>
         <div class="place__info">
           <h2 class="place__name"></h2>
-          <button type="button" class="place__like"></button>
+          <div class="place__like-section">
+            <button type="button" class="place__like"></button>
+            <span class="place__like-count">0</span>
+          </div>
         </div>
       </article>
     </template>
