@@ -20,8 +20,8 @@ export default class PopupWithSubmit extends Popup {
     this._handleFormSubmit = action;
   }
 
-  setLoadingSign(loading){
-      if(loading){
+  setLoadingSign(isLoading){
+      if(isLoading){
           this._submitButton.value = "Сохранение...";
       }
       else{
