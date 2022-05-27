@@ -32,26 +32,12 @@ const api = new Api({
   },
 });
 
-let userId;
-//Получение данных пользователей и карточек с сервера
-Promise.all([api.getUserData(), api.getInitialCards()])
-  .then(([user, cards]) => {
-    allCards.renderItems(cards);
-
-    userData.setUserInfo(user);
-    userData.setUserPhoto(user);
-    userId = user._id;
-  })
-  .catch((err) => console.log(err));
-
-
 //Класс с данными пользователя
 const userData = new UserInfo({
   selectorName: ".profile__name",
   selectorInfo: ".profile__description",
   selectorAvatar: ".profile__photo",
 });
-
 
 //Попап с изменением данных пользователя
 const popupProfile = new PopupWithForm("#popupEdit", (data) => {
@@ -91,7 +77,6 @@ avatarButton.addEventListener("click", () => {
   avatarFormValid.resetValidation();
   popupAvatar.open();
 });
-
 
 //Попап с картинкой
 const popupImage = new PopupWithImage("#popupPic");
@@ -159,7 +144,6 @@ const allCards = new Section(
   ".places"
 );
 
-
 // Попап добавления карточки
 const popupCard = new PopupWithForm("#popupAdd", (data) => {
   popupCard.setLoading(true);
@@ -201,5 +185,17 @@ profileFormValid.enableValidation();
 cardFormValid.enableValidation();
 avatarFormValid.enableValidation();
 
+let userId;
+//Получение данных пользователей и карточек с сервера
+Promise.all([api.getUserData(), api.getInitialCards()])
+  .then(([res, cards]) => {
+    userId = res._id;
+    allCards.renderItems(cards);
+
+    userData.setUserInfo(res);
+    userData.setUserPhoto(res);
+    
+  })
+  .catch((err) => console.log(err));
 
 
