@@ -29,10 +29,13 @@ export const initialCards = [
 // DOM-элементы
 export const editingButton = document.querySelector("#editButton"); // кнопка редактирования
 export const addButton = document.querySelector("#addButton"); // кнопка открывающая попак добавления карточки
+export const avatarButton = document.querySelector(".profile__photo-edit-button"); // кнопка открывающая попак добавления карточки
 export const formEdit = document.querySelector("#formEdit"); // форма редактирования
 export const nameInput = formEdit.querySelector("#name"); // элемент ввода имени
 export const jobInput = formEdit.querySelector("#occupation"); // элемент ввода профессии
 export const formAdd = document.querySelector("#formAdd"); // форма добавления карточки
+export const formAvatar = document.querySelector("#formAvatar"); // форма добавления карточки
+
 
 // Для валидации - селекторы форм
 export const config = {

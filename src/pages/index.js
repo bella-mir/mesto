@@ -16,89 +16,153 @@ import {
   nameInput,
   jobInput,
   editingButton,
+  avatarButton,
   addButton,
   formEdit,
   formAdd,
+  formAvatar,
 } from "../utils/constants.js";
 
+// API
 const api = new Api({
   url: "https://mesto.nomoreparties.co/v1/cohort-41",
   headers: {
-    authorization: "b5024e97-68ca-4480-bf36-543078de24a2",
+    authorization: "bebc4145-001f-487f-8afd-8c22bbd3883b",
     "Content-Type": "application/json",
   },
 });
 
-api.getUserData().then((res)=>{userData.setUserInfo(res);});
-
-
+//Класс с данными пользователя
 const userData = new UserInfo({
   selectorName: ".profile__name",
   selectorInfo: ".profile__description",
-  selectroAvatar: ".profile__photo"
-
+  selectorAvatar: ".profile__photo",
 });
 
+//Получение данных пользователей с сервера
+let userId;
+
+api.getUserData().then((res) => {
+  userData.setUserInfo(res);
+  userData.setUserPhoto(res);
+  userId = res._id;
+});
+
+//Попап с изменением данных пользователя
 const popupProfile = new PopupWithForm("#popupEdit", (data) => {
-  api.setUserData(data)
+  popupProfile.setLoading(true);
+  api
+    .setUserData(data)
     .then((res) => {
       console.log(data);
       userData.setUserInfo(res);
       popupProfile.close();
     })
-    .catch((err) => console.log(err));
+    .catch((err) => console.log(err))
+    .finally(() => {
+      popupProfile.setLoading(false);
+    });
 });
 popupProfile.setEventListeners();
 
+//Попап с изменением аватара
+const popupAvatar = new PopupWithForm("#popupAvatar", (data) => {
+  popupAvatar.setLoading(true);
+  api
+    .setNewAvatar(data)
+    .then((data) => {
+      userData.setUserPhoto(data);
+      popupAvatar.close();
+    })
+    .catch((err) => console.log(err))
+    .finally(() => {
+      popupAvatar.setLoading(false);
+    });
+});
+popupAvatar.setEventListeners();
 
+//Слушатель на кнопке редактирования аватара
+avatarButton.addEventListener("click", () => {
+  avatarFormValid.resetValidation();
+  popupAvatar.open();
+});
 
-
-
-
+//Получение карточек с сервера
 const cards = api.getInitialCards();
 
-
-//вот это переписать, чтобы автоматически получать ай ди пользователя
-const userId = "b1bca313bfd031609bfa0e50";
-
-// const getUserId = api.getUserData().then((result) => {
-//   return(result._id);
-// }).catch((err) => {
-//     console.log(err); // выведем ошибку в консоль
-//   });
-
-// console.log(getUserId);
-
-
+//Попап с картинкой
 const popupImage = new PopupWithImage("#popupPic");
 popupImage.setEventListeners();
 
-// Увеличение картинок при клике (для мягкого связывания функции с классом Card)
+// Функция увеличения картинок при клике (для мягкого связывания функции с классом Card)
 function handleCardClick(name, link) {
   popupImage.open(name, link);
 }
 
+const popupConfirm = new PopupWithSubmit("#popupCon", handleDeleteClick);
+
+
+//Функция удаления карточки
+function handleDeleteClick(id, element) {
+  api
+    .deleteCard(id)
+    .then(() => {
+      element.remove();
+      popupConfirm.close();
+    })
+    .catch((err) => console.log(err));
+}
+
+//Функция подтверждения удаления
+function handleConfirmClick() {
+  popupConfirm.open();
+  popupConfirm.setEventListeners();
+}
+
+
+
+//Функция лайка карточки
+function handleLikeClick(card, isLike) {
+  const cardLike = isLike
+    ? api.deleteLikeCard(card._id)
+    : api.setLikeCard(card._id);
+  cardLike
+    .then((res) => {
+      card.setLikeCard(isLike, res);
+    })
+    .catch((err) => console.log(err));
+}
 
 //Функция создания карточки
-const createCard = (item) => {
-  const card = new Card(item, ".places-template", handleCardClick,  api, userId);
+function createCard(item) {
+  const card = new Card(
+    item,
+    ".places-template",
+    handleCardClick,
+    handleConfirmClick,
+    handleLikeClick,
+    api,
+    userId
+  );
   return card;
-};
+}
 
-
+//Функция отрисовки карточки
 function renderCard(item) {
   const card = createCard(item);
   const cardElement = card.generateCard();
   return cardElement;
 }
 
-//понять, что делать с items
-const allCards= new Section({
-  renderer: renderCard
-},
-".places");
+// Создание секции с карточками
+const allCards = new Section(
+  {
+    renderer: renderCard,
+  },
+  ".places"
+);
 
-
+// Отрисовка карточек
 cards
   .then((result) => {
     allCards.renderItems(result);
@@ -107,20 +171,23 @@ cards
     console.log(err); // выведем ошибку в консоль
   });
 
-
-  const popupCard = new PopupWithForm("#popupAdd", (data) => {
-    api.postCard(data)
-      .then((res) => {
-        const card = createCard(res);
-        const cardElement = card.generateCard();
-        allCards.addItem(cardElement);
-        popupCard.close();
-      })
-      .catch((err) => console.log(err));
-  });
-  popupCard.setEventListeners();
-
- 
+// Попап добавления карточки
+const popupCard = new PopupWithForm("#popupAdd", (data) => {
+  popupCard.setLoading(true);
+  api
+    .postCard(data)
+    .then((res) => {
+      const card = createCard(res);
+      const cardElement = card.generateCard();
+      allCards.addItem(cardElement);
+      popupCard.close();
+    })
+    .catch((err) => console.log(err))
+    .finally(() => {
+      popupCard.setLoading(false);
+    });
+});
+popupCard.setEventListeners();
 
 //Слушатели на кнопках для открытия попапов редактирования профиля и добавления картинки
 editingButton.addEventListener("click", function () {
@@ -136,63 +203,11 @@ addButton.addEventListener("click", () => {
   popupCard.open();
 });
 
-
 //Валидация форм
 const profileFormValid = new FormValidator(formEdit, config);
 const cardFormValid = new FormValidator(formAdd, config);
+const avatarFormValid = new FormValidator(formAvatar, config);
 
 profileFormValid.enableValidation();
 cardFormValid.enableValidation();
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-  
-
-
-
-// //добавление карточки из попапа
-// const popupCard = new PopupWithForm("#popupAdd", (data) => {
-//   newCard.addItem(renderCard(data));
-// }, api);
-
-//Слушатели на попапах
-// popupCard.setEventListeners();
-// popupProfile.setEventListeners();
-
-// //функция отрисовки карточек на странице
-// cards
-//   .then((result) => {
-
-    
-//       //создание карточек
-//       const newCard = new Section(
-//         {
-//           items: result.map((item)=>item),
-//           renderer: renderCard,
-//         },
-//         ".places"
-//       );
-
-//       function renderCard(item) {
-//         const card = new Card(item, ".places-template", handleCardClick, handleDeleteClick, api);
-//         const cardElement = card.generateCard();
-//         return cardElement;
-//       }
-//       //добавление карточек на страницу
-//       newCard.renderItems();
-//   })
-//   .catch((err) => {
-//     console.log(err); // выведем ошибку в консоль
-//   });
-
+avatarFormValid.enableValidation();

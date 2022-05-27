@@ -3,7 +3,8 @@ export default class Card {
     data,
     selector,
     handleCardClick,
-
+    handleConfirmClick,
+    handleLikeClick,
     api,
     userId
   ) {
@@ -15,10 +16,13 @@ export default class Card {
     this._link = data.link;
     this._likes = data.likes;
     this._handleCardClick = handleCardClick;
+    this._handleConfirmClick = handleConfirmClick;
+    this._handleLikeClick = handleLikeClick;
 
     this._api = api;
   }
 
+  //получение темплейта
   _getTemplate() {
     const cardElement = document
       .querySelector(this._selector)
@@ -27,54 +31,25 @@ export default class Card {
     return cardElement;
   }
 
-  handleLikeCard() {
-    this._element = this._getTemplate();
-    this._likeCount = this._element.querySelector(".place__like-count");
-    this._likeButton = this._element.querySelector(".place__like");
 
-    if (!this._likeButton.classList.contains("place__like_active")) {
-      this._api
-        .setLikeCard(this._id)
-        .then((data) => {
-          this._likeButton.classList.add("place__like_active");
-          this._likeCount.textContent = data.likes.length;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      this._api
-        .deleteLikeCard(this._id)
-        .then((data) => {
-          this._likeButton.classList.remove("place__like_active");
-          this._likeCount.textContent = data.likes.length;
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    }
-  }
-
+  //метод, отвечающий за нажатие на картинку
   _handleImageClick() {
     this._handleCardClick(this._name, this._link);
   }
 
-  _handleDeleteClick() {
-    this._api
-      .deleteCard(this._id)
-      .then(() => this._element.remove())
-      .catch((err) => console.log(err));
-  }
-
+  //установка слушателей
   _setEventListeners() {
-    this._likeButton.addEventListener("click", () => {
-      this.handleLikeCard();
+    this._likeButton.addEventListener("click", (evt) => {
+      this._handleLikeClick(
+        this,
+        evt.target.classList.contains("place__like_active")
+      );
     });
 
     this._element
       .querySelector(".place__remove")
       .addEventListener("click", () => {
-        this._handleDeleteClick();
+        this._handleConfirmClick(this._id, this._element);
       });
 
     this._cardImage.addEventListener("click", () => {
@@ -82,6 +57,7 @@ export default class Card {
     });
   }
 
+  //генерация карточек
   generateCard() {
     this._element = this._getTemplate();
     this._cardImage = this._element.querySelector(".place__image");
@@ -101,26 +77,19 @@ export default class Card {
 
     return this._element;
   }
+
+//метод, отвечающий за изменения верски при нажатии на кнопку лайка
+setLikeCard(isLike, data) {
+  this._likeButton = this._element.querySelector(".place__like");
+  this.likeCount = this._element.querySelector(".place__like-count");
+
+  if (!isLike) {
+    this._likeButton.classList.add("place__like_active");
+    this.likeCount.textContent = data.likes.length;
+  } else {
+    this._likeButton.classList.remove("place__like_active");
+    this.likeCount.textContent = data.likes.length;
+  }
 }
 
-// //переписать, что отправляется запрос, как на добавление лайка, так и на удаление
-//   _toggleLike() {
-//     this._likeButton.classList.toggle("place__like_active");
-//   }
-
-// //по идее все ок
-//   _handleDeleteClick() {
-//     this._api
-//       .deleteCard(this._id)
-//       .then(() => this._element.remove())
-//       .catch((err) => console.log(err));
-//   }
-
-// //тут надо переписать toggleLike
-//   _handleLikeClick(){
-//     this._api
-//       .setLikeCard(this._id)
-//       .then(() => this._toggleLike())
-//       .catch((err) => console.log(err));
-
-//   }
+}

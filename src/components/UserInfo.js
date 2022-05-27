@@ -3,12 +3,13 @@ export default class UserInfo {
     this._userName = document.querySelector(selectorName);
     this._userInfo = document.querySelector(selectorInfo);
     this._userPhoto = document.querySelector(selectorAvatar);
-
   }
+
   getUserInfo() {
     const userInfo = {};
     userInfo.name = this._userName.textContent;
     userInfo.activity = this._userInfo.textContent;
+    userInfo.avatar = this._userPhoto.src;
 
     return userInfo;
   }
@@ -18,11 +19,7 @@ export default class UserInfo {
     this._userInfo.textContent = data.about;
   }
 
-  setUserPhoto(data){
+  setUserPhoto(data) {
     this._userPhoto.src = data.avatar;
   }
-
-
 }
-
-

@@ -15,17 +15,20 @@
       <main class="content">
         <section class="profile">
           <div class="profile__info">
-            <div class="profile__photo"></div>
+            <div class="profile__photo-edit">
+            <img src = "#" class="profile__photo">
+            <button type="button" class="profile__photo-edit-button"></button>
+          </div>
             <div class="profile__text">
               <div class="profile__firstline">
-                <h1 class="profile__name"></h1>
+                <h1 class="profile__name">Загрузка данных</h1>
                 <button
                   id="editButton"
                   type="button"
                   class="profile__edit-button"
                 ></button>
               </div>
-              <p class="profile__description"></p>
+              <p class="profile__description">Загрузка данных</p>
             </div>
           </div>
           <button id="addButton" type="button" class="profile__button">
@@ -135,7 +138,7 @@
             <form id="formAdd" name="card-form" class="form" novalidate>
               <input
                 id="submit_confirm"
-                class="form__submit form__submit_inactive"
+                class="form__submit form__submit_active"
                 type="submit"
                 value="Да"
                 disabled
@@ -157,11 +160,11 @@
                 class="form__input"
                 type="url"
                 id="avatarLink"
-                name="link"
+                name="avatarlink"
                 placeholder="Ссылка на картинку"
                 required
               />
-              <span class="form__error" id="link-error"></span>
+              <span class="form__error" id="avatarlink-error"></span>
               <input
                 id="submit_confirm"
                 class="form__submit form__submit_inactive"

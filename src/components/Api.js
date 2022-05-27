@@ -17,9 +17,7 @@ export default class Api {
     return fetch(this._baseUrl + "/cards", {
       method: "GET",
       headers: this._headers,
-    }).then(
-      this._checkResponse
-    );
+    }).then(this._checkResponse);
   }
 
   //добавить карточку (POST)
@@ -65,14 +63,14 @@ export default class Api {
       method: "PATCH",
       headers: this._headers,
       body: JSON.stringify({
-        avatar: data.userAvatar,
+        avatar: data.avatarlink,
       }),
     }).then(this._checkResponse);
   }
 
   //“залайкать” карточку (PUT)
   setLikeCard(id) {
-    return fetch(this._baseUrl+ `/cards/likes/${id}`, {
+    return fetch(this._baseUrl + `/cards/likes/${id}`, {
       method: "PUT",
       headers: this._headers,
     }).then(this._checkResponse);
