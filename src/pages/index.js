@@ -32,6 +32,19 @@ const api = new Api({
   },
 });
 
+let userId;
+//Получение данных пользователей и карточек с сервера
+Promise.all([api.getUserData(), api.getInitialCards()])
+  .then(([user, cards]) => {
+    allCards.renderItems(cards);
+
+    userData.setUserInfo(user);
+    userData.setUserPhoto(user);
+    userId = user._id;
+  })
+  .catch((err) => console.log(err));
+
+
 //Класс с данными пользователя
 const userData = new UserInfo({
   selectorName: ".profile__name",
@@ -188,15 +201,5 @@ profileFormValid.enableValidation();
 cardFormValid.enableValidation();
 avatarFormValid.enableValidation();
 
-let userId;
 
-//Получение данных пользователей и карточек с сервера
-Promise.all([api.getUserData(), api.getInitialCards()])
-  .then(([user, cards]) => {
-    allCards.renderItems(cards);
-    userData.setUserInfo(user);
-    userData.setUserPhoto(user);
-    userId = userData._id;
 
-  })
-  .catch((err) => console.log(err));
