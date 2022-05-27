@@ -39,14 +39,6 @@ const userData = new UserInfo({
   selectorAvatar: ".profile__photo",
 });
 
-//Получение данных пользователей с сервера
-let userId;
-
-api.getUserData().then((res) => {
-  userData.setUserInfo(res);
-  userData.setUserPhoto(res);
-  userId = res._id;
-});
 
 //Попап с изменением данных пользователя
 const popupProfile = new PopupWithForm("#popupEdit", (data) => {
@@ -87,8 +79,6 @@ avatarButton.addEventListener("click", () => {
   popupAvatar.open();
 });
 
-//Получение карточек с сервера
-const cards = api.getInitialCards();
 
 //Попап с картинкой
 const popupImage = new PopupWithImage("#popupPic");
@@ -99,8 +89,10 @@ function handleCardClick(name, link) {
   popupImage.open(name, link);
 }
 
-const popupConfirm = new PopupWithSubmit("#popupCon", handleDeleteClick);
-
+const popupConfirm = new PopupWithSubmit("#popupCon", (id, element) => {
+  handleDeleteClick(id, element);
+});
+popupConfirm.setEventListeners();
 
 //Функция удаления карточки
 function handleDeleteClick(id, element) {
@@ -112,14 +104,6 @@ function handleDeleteClick(id, element) {
     })
     .catch((err) => console.log(err));
 }
-
-//Функция подтверждения удаления
-function handleConfirmClick() {
-  popupConfirm.open();
-  popupConfirm.setEventListeners();
-}
-
-
 
 //Функция лайка карточки
 function handleLikeClick(card, isLike) {
@@ -139,7 +123,7 @@ function createCard(item) {
     item,
     ".places-template",
     handleCardClick,
-    handleConfirmClick,
+    { handleConfirmClick: () => popupConfirm.open(card._id, card._element) },
     handleLikeClick,
     api,
     userId
@@ -162,14 +146,6 @@ const allCards = new Section(
   ".places"
 );
 
-// Отрисовка карточек
-cards
-  .then((result) => {
-    allCards.renderItems(result);
-  })
-  .catch((err) => {
-    console.log(err); // выведем ошибку в консоль
-  });
 
 // Попап добавления карточки
 const popupCard = new PopupWithForm("#popupAdd", (data) => {
@@ -211,3 +187,16 @@ const avatarFormValid = new FormValidator(formAvatar, config);
 profileFormValid.enableValidation();
 cardFormValid.enableValidation();
 avatarFormValid.enableValidation();
+
+let userId;
+
+//Получение данных пользователей и карточек с сервера
+Promise.all([api.getUserData(), api.getInitialCards()])
+  .then(([user, cards]) => {
+    allCards.renderItems(cards);
+    userData.setUserInfo(user);
+    userData.setUserPhoto(user);
+    userId = userData._id;
+
+  })
+  .catch((err) => console.log(err));

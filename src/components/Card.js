@@ -3,7 +3,7 @@ export default class Card {
     data,
     selector,
     handleCardClick,
-    handleConfirmClick,
+    {handleConfirmClick},
     handleLikeClick,
     api,
     userId
@@ -49,7 +49,7 @@ export default class Card {
     this._element
       .querySelector(".place__remove")
       .addEventListener("click", () => {
-        this._handleConfirmClick(this._id, this._element);
+        this._handleConfirmClick();
       });
 
     this._cardImage.addEventListener("click", () => {
