@@ -87,9 +87,19 @@ function handleCardClick(name, link) {
   popupImage.open(name, link);
 }
 
-const popupConfirm = new PopupWithSubmit("#popupCon", (id, element) => {
-  handleDeleteClick(id, element);
-});
+//Функция лайка карточки
+function handleLikeClick(card, isLike) {
+  const cardLike = isLike
+    ? api.deleteLikeCard(card._id)
+    : api.setLikeCard(card._id);
+  cardLike
+    .then((res) => {
+      card.setLikeCard(isLike, res);
+    })
+    .catch((err) => console.log(err));
+}
+
+const popupConfirm = new PopupWithSubmit("#popupCon", handleDeleteClick);
 popupConfirm.setEventListeners();
 
 //Функция удаления карточки
@@ -103,25 +113,20 @@ function handleDeleteClick(id, element) {
     .catch((err) => console.log(err));
 }
 
-//Функция лайка карточки
-function handleLikeClick(card, isLike) {
-  const cardLike = isLike
-    ? api.deleteLikeCard(card._id)
-    : api.setLikeCard(card._id);
-  cardLike
-    .then((res) => {
-      card.setLikeCard(isLike, res);
-    })
-    .catch((err) => console.log(err));
+//Функция подтверждения
+function handleConfirmDelete(id, element) {
+  popupConfirm.open(id, element);
+  console.log(id);
+  console.log(element);
 }
 
 //Функция создания карточки
-function createCard(item) {
+function createCard(data) {
   const card = new Card(
-    item,
+    data,
     ".places-template",
     handleCardClick,
-    { handleConfirmClick: () => popupConfirm.open(card._id, card._element) },
+    handleConfirmDelete,
     handleLikeClick,
     api,
     userId
@@ -194,8 +199,5 @@ Promise.all([api.getUserData(), api.getInitialCards()])
 
     userData.setUserInfo(res);
     userData.setUserPhoto(res);
-    
   })
   .catch((err) => console.log(err));
-
-

@@ -3,7 +3,7 @@ export default class Card {
     data,
     selector,
     handleCardClick,
-    {handleConfirmClick},
+    handleConfirmDelete,
     handleLikeClick,
     api,
     userId
@@ -16,7 +16,7 @@ export default class Card {
     this._link = data.link;
     this._likes = data.likes;
     this._handleCardClick = handleCardClick;
-    this._handleConfirmClick = handleConfirmClick;
+    this._handleConfirmDelete = handleConfirmDelete;
     this._handleLikeClick = handleLikeClick;
 
     this._api = api;
@@ -30,7 +30,6 @@ export default class Card {
       .cloneNode(true);
     return cardElement;
   }
-
 
   //метод, отвечающий за нажатие на картинку
   _handleImageClick() {
@@ -49,7 +48,7 @@ export default class Card {
     this._element
       .querySelector(".place__remove")
       .addEventListener("click", () => {
-        this._handleConfirmClick();
+        this._handleConfirmDelete(this._id, this._element);
       });
 
     this._cardImage.addEventListener("click", () => {
@@ -75,21 +74,24 @@ export default class Card {
       this._element.querySelector(".place__remove").remove();
     }
 
+    if (this._likes.find((card) => this._userId === card._id)) {
+      this._likeButton.classList.add("place__like_active");
+    }
+
     return this._element;
   }
 
-//метод, отвечающий за изменения верски при нажатии на кнопку лайка
-setLikeCard(isLike, data) {
-  this._likeButton = this._element.querySelector(".place__like");
-  this.likeCount = this._element.querySelector(".place__like-count");
+  //метод, отвечающий за изменения верски при нажатии на кнопку лайка
+  setLikeCard(isLike, data) {
+    this._likeButton = this._element.querySelector(".place__like");
+    this.likeCount = this._element.querySelector(".place__like-count");
 
-  if (!isLike) {
-    this._likeButton.classList.add("place__like_active");
-    this.likeCount.textContent = data.likes.length;
-  } else {
-    this._likeButton.classList.remove("place__like_active");
-    this.likeCount.textContent = data.likes.length;
+    if (!isLike) {
+      this._likeButton.classList.add("place__like_active");
+      this.likeCount.textContent = data.likes.length;
+    } else {
+      this._likeButton.classList.remove("place__like_active");
+      this.likeCount.textContent = data.likes.length;
+    }
   }
-}
-
 }
