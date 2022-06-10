@@ -1,12 +1,47 @@
-# Проект: Место
+# Project:  "Mesto" (Place)
 
-**О задании**
 
-Задание выполнено в рамках обучения на программе "веб-разработчик" в Яндекс-Практикуме. 
-Этот проект о различных красивых местах в России и представляет собой одностраничный сайт, адаптивный для разных устройств.
-В приложении отрабатываются основные навыки работы в html, css и javascript. Есть возможность редактирования профиля, можно отмечать (лайкать) понравившиеся карточки. 
+<img src="src/images/mesto_icon.svg" alt="Logo" width="80" height="auto">
 
-**GitHub**
 
-* [Ссылка на готовую работу на GitHub](https://belka-mironova.github.io/mesto/)
+## Created as one of the [Yandex.Praktikum] (https://praktikum.yandex.com/) Bootcamp projects
 
+[Github Pages](https://belka-mironova.github.io/mesto/)
+
+**Description**
+
+"Mesto" is an interactive page where users can share their photos. Users have options to edit their profile, like cards and delete photos if they changed their mind :)
+In this work I've used the advanced features of HTML and CSS, vanilla JavaScript (asynchronous JS, OOP, DOM API etc), Webpack.
+
+### Installation
+
+1. Clone the repo
+   ```sh
+   git clone https://github.com/belka-mironova/mesto.git
+   ```
+2. Install NPM packages
+   ```sh
+   npm install
+   ```
+3. Run on a local  server
+   ```sh
+   npm run dev
+   ```
+
+## Roadmap
+
+- [] Create an analogue using React. In the process - [Mesto-React] (https://github.com/belka-mironova/mesto-react.git)
+
+## Functionality: 
+
+* Add and remove pictures 
+* "Like" pictures
+* Edit user profile 
+
+## Languages: 
+
+* JavaScript 
+
+## Design Brief in Figma: 
+
+* [Brief](https://www.figma.com/file/SLGf16iUspCIjC05qUi1dk/YP-project-4-mesto) 
