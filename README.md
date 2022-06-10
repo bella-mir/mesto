@@ -4,7 +4,7 @@
 <img src="src/images/mesto_icon.svg" alt="Logo" width="80" height="auto">
 
 
-## Created as one of the [Yandex.Praktikum] (https://praktikum.yandex.com/) Bootcamp projects
+## Created as one of the [Yandex.Praktikum](https://praktikum.yandex.com/) Bootcamp projects
 
 [Github Pages](https://belka-mironova.github.io/mesto/)
 
@@ -30,7 +30,7 @@ In this work I've used the advanced features of HTML and CSS, vanilla JavaScript
 
 ## Roadmap
 
-- [] Create an analogue using React. In the process - [Mesto-React] (https://github.com/belka-mironova/mesto-react.git)
+- [] Create an analogue using React. In the process - [Mesto-React](https://github.com/belka-mironova/mesto-react.git)
 
 ## Functionality: 
 
