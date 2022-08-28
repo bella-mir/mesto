@@ -1,9 +1,5 @@
 # Project:  "Mesto" (Place)
 
-
-<img src="src/images/mesto_icon.svg" alt="Logo" width="80" height="auto">
-
-
 ## Created as one of the [Yandex.Praktikum](https://praktikum.yandex.com/) Bootcamp projects
 
 [Github Pages](https://belka-mironova.github.io/mesto/)
