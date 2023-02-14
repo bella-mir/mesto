@@ -2,7 +2,7 @@
 
 ## Created as one of the [Yandex.Praktikum](https://praktikum.yandex.com/) Bootcamp projects
 
-[Github Pages](https://belka-mironova.github.io/mesto/)
+[Github Pages](https://bella-mir.github.io/mesto/)
 
 **Description**
 
@@ -13,7 +13,7 @@ In this work I've used the advanced features of HTML and CSS, vanilla JavaScript
 
 1. Clone the repo
    ```sh
-   git clone https://github.com/belka-mironova/mesto.git
+   git clone https://github.com/bella-mir/mesto.git
    ```
 2. Install NPM packages
    ```sh
